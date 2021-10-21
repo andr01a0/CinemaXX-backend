@@ -2,8 +2,10 @@ package instantcoffee.cinemaxx.controller;
 
 import instantcoffee.cinemaxx.authentication.User;
 import instantcoffee.cinemaxx.dto.BookingDTO;
+import instantcoffee.cinemaxx.dto.BookingDTOClient;
+import instantcoffee.cinemaxx.dto.CreateBookingDTO;
 import instantcoffee.cinemaxx.dto.SeatListDTO;
-import instantcoffee.cinemaxx.entities.Booking;
+import instantcoffee.cinemaxx.entities.TheaterHall;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,16 +16,17 @@ import java.time.LocalDateTime;
 public interface BookingController {
 
     @GetMapping
-    public SeatListDTO getSeatList(@RequestParam int theaterHallId,
+    public SeatListDTO getSeatList(@RequestParam TheaterHall theaterHall,
                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startTime);
 
     @PostMapping
-    public ResponseEntity<String> createBooking(@AuthenticationPrincipal User user, @RequestBody Booking booking);
+    public ResponseEntity<BookingDTOClient> createBooking(CreateBookingDTO createBookingDto, User user);
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> cancelBooking(@AuthenticationPrincipal User user, @PathVariable int id);
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<String> editBooking(@AuthenticationPrincipal User user, @RequestBody BookingDTO bookingDTO);
 
 }

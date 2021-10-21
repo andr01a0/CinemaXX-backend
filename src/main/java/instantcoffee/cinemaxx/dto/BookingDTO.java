@@ -1,29 +1,33 @@
 package instantcoffee.cinemaxx.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import instantcoffee.cinemaxx.entities.Booking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @NoArgsConstructor
-@Getter @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
 public class BookingDTO {
 
     private int bookingId;
-    private int timeSlotsId;
+    private LocalDateTime scheduledTime;
     private int seatId;
+    private int timeSlotId;
 
-    public BookingDTO(Booking booking) {
+    public BookingDTO(Booking booking){
         this.bookingId = booking.getBookingId();
-        this.timeSlotsId = booking.getTimeSlotsId();
-        this.seatId = booking.getSeatId();
+        this.seatId = getSeatId();
+        this.scheduledTime = booking.getTimeSlot().getScheduledTime();
+        this.timeSlotId = booking.getTimeSlot().getTimeSlotId();
     }
+
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -41,7 +45,8 @@ public class BookingDTO {
         return booking;
     }
 
-    public static List<Booking> DTOtoEntity(List<BookingDTO> bookingDTOS) {
-        return bookingDTOS.stream().map(x -> DTOtoEntity(x)).collect(Collectors.toList());
-    }
+
+
+
+
 }

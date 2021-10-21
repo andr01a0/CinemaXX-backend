@@ -1,5 +1,6 @@
 package instantcoffee.cinemaxx.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -28,4 +29,13 @@ public class TheaterHall {
       joinColumns = @JoinColumn(name = "theater_hall_id"),
       inverseJoinColumns = @JoinColumn(name = "movie_id"))
   private Set<Movie> theaterHallsHasMovies = new HashSet<>();
+
+  public Set<Movie> getMovies() {
+    return theaterHallsHasMovies;
+  }
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "theaterHall", cascade = CascadeType.REMOVE)
+  private Set<Seat> seats;
+
 }

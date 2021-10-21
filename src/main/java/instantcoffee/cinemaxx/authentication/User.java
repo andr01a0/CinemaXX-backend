@@ -1,5 +1,7 @@
 package instantcoffee.cinemaxx.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import instantcoffee.cinemaxx.entities.Booking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @RequiredArgsConstructor
@@ -35,6 +39,10 @@ public class User implements UserDetails {
   @Column
   @NonNull
   private String password;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user")
+  private Set<Booking> bookings = new HashSet<>();
 
   // TODO(v3s1e): Implement roles
   @Override
